@@ -1,8 +1,26 @@
-import React from 'react';
+import { db } from '@/db';
+import { redirect } from 'next/navigation';
 
 function SnippetCreate() {
+  const createSnippet = async (formData: FormData) => {
+    // This needs to be a server action. THIS IS NEEDED. NOT DEFAULT
+    'use server';
+    // get (from name prop) and validate user input
+    const title = formData.get('title') as string;
+    const code = formData.get('code') as string;
+    // create new entry in DB
+    const snippet = await db.snippet.create({
+      data: {
+        title,
+        code,
+      },
+    });
+    console.log(snippet);
+    // Redirect user back to home page
+    redirect('/');
+  };
   return (
-    <form>
+    <form action={createSnippet}>
       <h3 className="font-bold m-3">Create a snippet</h3>
       <div className="flex flex-col gap-4">
         <div className="flex gap-2">
