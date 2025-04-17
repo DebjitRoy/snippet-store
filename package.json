@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "eslintIgnore": [
+    "src/generated/*"
+  ],
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "@prisma/client": "^6.6.0",
