@@ -1,6 +1,7 @@
 import { db } from '@/db';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import * as actions from '@/actions';
 
 export interface SnippetShowProps {
   params: Promise<{
@@ -19,17 +20,22 @@ async function SnippetShow(props: SnippetShowProps) {
     return notFound();
   }
 
+  // we needed to bind the method similar to client components so that we can pass arguments
+  const deleteSnippetAction = actions.deleteSnippet.bind(null, parseInt(id));
+
   return (
     <div>
       <div className="flex m-4 justify-between items-center">
         <h1 className="text-xl font-bold">{snippet.title}</h1>
         <div className="flex gap-2">
-          <Link href={`/snippets/${id}/edit`} className="p-2 border rounded">
+          <Link href={`/snippets/${id}/edit`} className="p-2 w-[70px] border rounded text-center">
             Edit
           </Link>
-          <Link href={''} className="p-2 border rounded">
-            Delete
-          </Link>
+          <form action={deleteSnippetAction}>
+            <button type="submit" className="p-2 w-[70px] border rounded text-center">
+              Delete
+            </button>
+          </form>
         </div>
       </div>
       <pre className="p-3 border rounded bg-gray-200 border-gray-200">
