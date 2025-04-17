@@ -1,7 +1,8 @@
 import { db } from '@/db';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-interface SnippetShowProps {
+export interface SnippetShowProps {
   params: Promise<{
     id: string;
   }>;
@@ -18,7 +19,24 @@ async function SnippetShow(props: SnippetShowProps) {
     return notFound();
   }
 
-  return <div>{snippet.title}</div>;
+  return (
+    <div>
+      <div className="flex m-4 justify-between items-center">
+        <h1 className="text-xl font-bold">{snippet.title}</h1>
+        <div className="flex gap-2">
+          <Link href={`/snippets/${id}/edit`} className="p-2 border rounded">
+            Edit
+          </Link>
+          <Link href={''} className="p-2 border rounded">
+            Delete
+          </Link>
+        </div>
+      </div>
+      <pre className="p-3 border rounded bg-gray-200 border-gray-200">
+        <code>{snippet.code}</code>
+      </pre>
+    </div>
+  );
 }
 
 export default SnippetShow;
