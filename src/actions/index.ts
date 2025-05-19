@@ -53,6 +53,8 @@ export async function editSnippet(id: number, code: string) {
     data: { code },
   });
   // on demand cache-busting
+  // this cache busting is required, as we forcefully(generateStaticParams ) made the dynamic route snippets/[id] as static cached.
+  // when someone edits the snippet, we need to cache bust to display updated page
   revalidatePath(`/snippets/${id}`);
   // use redirect inside server component, where clientComponent uses useRouter hook
   redirect(`/snippets/${id}`);

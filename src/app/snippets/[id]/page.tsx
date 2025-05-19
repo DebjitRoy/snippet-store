@@ -45,7 +45,11 @@ export default async function SnippetShow(props: SnippetShowProps) {
   );
 }
 
+// By default sinppets/[id] won't be cached
 // Caching dynamic routes
+// just by defining this method (no need to call anywhere) enables caching
+// when the server runs(build time), it fetches available
+//  snippets and cache the result. e.g. snippets/1, snippets/2 will be cached on server
 export async function generateStaticParams() {
   const snippets = await db.snippet.findMany();
   return snippets.map((snippet) => ({ id: `${snippet.id}` }));
