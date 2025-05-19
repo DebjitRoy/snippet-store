@@ -52,6 +52,8 @@ export async function editSnippet(id: number, code: string) {
     where: { id },
     data: { code },
   });
+  // on demand cache-busting
+  revalidatePath(`/snippets/${id}`);
   // use redirect inside server component, where clientComponent uses useRouter hook
   redirect(`/snippets/${id}`);
 }

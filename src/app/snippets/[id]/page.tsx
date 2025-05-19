@@ -8,7 +8,7 @@ export interface SnippetShowProps {
     id: string;
   }>;
 }
-async function SnippetShow(props: SnippetShowProps) {
+export default async function SnippetShow(props: SnippetShowProps) {
   const { id } = await props.params;
   const snippet = await db.snippet.findFirst({
     where: {
@@ -45,4 +45,8 @@ async function SnippetShow(props: SnippetShowProps) {
   );
 }
 
-export default SnippetShow;
+// Caching dynamic routes
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+  return snippets.map((snippet) => ({ id: `${snippet.id}` }));
+}
